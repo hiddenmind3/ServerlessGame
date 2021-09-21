@@ -1,4 +1,4 @@
-name: Deploy Java project to function app
+name: Windows_Java_Workflow
 
 on:
   push:
@@ -17,23 +17,38 @@ jobs:
     - name: 'Checkout GitHub Action'
       uses: actions/checkout@main
 
-    - name: Setup Java Sdk ${{ env.JAVA_VERSION }}
+    # If you want to use publish profile credentials instead of Azure Service Principal
+    # Please comment this 'Login via Azure CLI' block
+    #- name: 'Login via Azure CLI'
+    #  uses: azure/login@v1
+    #  with:
+    #    creds: $
+
+    - name: Setup Java 1.8.x
       uses: actions/setup-java@v1
       with:
-        java-version: ${{ env.JAVA_VERSION }}
+        # If your pom.xml <maven.compiler.source> version is not in 1.8.x
+        # Please change the Java version to match the version in pom.xml <maven.compiler.source>
+        java-version: '1.8.x'
 
-    - name: 'Restore Project Dependencies Using Mvn'
+    - name: 'Run mvn'
       shell: pwsh
       run: |
-        pushd './${{ env.POM_XML_DIRECTORY }}'
+        # If your function app project is not located in your repository's root
+        # Please change your directory for maven build in pushd
+        pushd ./
         mvn clean package
         mvn azure-functions:package
         popd
-        
+
     - name: 'Run Azure Functions Action'
       uses: Azure/functions-action@v1
       id: fa
       with:
         app-name: ${{ env.AZURE_FUNCTIONAPP_NAME }}
-        package: '${{ env.AZURE_FUNCTIONAPP_PACKAGE_PATH }}/output'
+        # If your function app project is not located in your repository's root
+        # Please consider prefixing the project path in this package parameter
+        package: ./target/azure-functions/${{ env.POM_FUNCTIONAPP_NAME }}
+        # If you want to use publish profile credentials instead of Azure Service Principal
+        # Please uncomment the following line
         publish-profile: ${{ secrets.AZURE_FUNCTIONAPP_PUBLISH_PROFILE }}
