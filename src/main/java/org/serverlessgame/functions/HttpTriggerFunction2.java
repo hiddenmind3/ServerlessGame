@@ -26,7 +26,7 @@ public class HttpTriggerFunction2 {
         if (name == null) {
             return request.createResponseBuilder(HttpStatus.BAD_REQUEST).body("Please pass a name on the query string or in the request body").build();
         } else {
-            return request.createResponseBuilder(HttpStatus.OK).body("Hello, " + name + " (from class2)").build();
+            return request.createResponseBuilder(HttpStatus.OK).body("Hello, " + name + " (from class2)...").build();
         }
     }
 }
