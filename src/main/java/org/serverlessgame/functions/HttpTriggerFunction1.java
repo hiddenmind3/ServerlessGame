@@ -14,13 +14,13 @@ import java.util.Optional;
 /**
  * Azure Functions with HTTP Trigger.
  */
-public class HttpTriggerFunction {
+public class HttpTriggerFunction1 {
     /**
-     * This function listens at endpoint "/api/HttpExample". Two ways to invoke it using "curl" command in bash:
-     * 1. curl -d "HTTP Body" {your host}/api/HttpExample
-     * 2. curl "{your host}/api/HttpExample?name=HTTP%20Query"
+     * This function listens at endpoint "/api/HttpTriggerFunction1". Two ways to invoke it using "curl" command in bash:
+     * 1. curl -d "HTTP Body" {your host}/api/HttpTriggerFunction1
+     * 2. curl "{your host}/api/HttpTriggerFunction1?name=HTTP%20Query"
      */
-    @FunctionName("HttpExample")
+    @FunctionName("HttpTriggerFunction1")
     public HttpResponseMessage run(
             @HttpTrigger(
                 name = "req",

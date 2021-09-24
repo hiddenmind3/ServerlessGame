@@ -9,9 +9,9 @@ import com.microsoft.azure.functions.*;
  */
 public class HttpTriggerFunction2 {
     /**
-     * This function listens at endpoint "/api/HtttpTrigger2". Two ways to invoke it using "curl" command in bash:
-     * 1. curl -d "HTTP Body" {your host}/api/HtttpTrigger2
-     * 2. curl {your host}/api/HtttpTrigger2?name=HTTP%20Query
+     * This function listens at endpoint "/api/HttpTriggerFunction2". Two ways to invoke it using "curl" command in bash:
+     * 1. curl -d "HTTP Body" {your host}/api/HttpTriggerFunction2
+     * 2. curl {your host}/api/HttpTriggerFunction2?name=HTTP%20Query
      */
     @FunctionName("HttpTriggerFunction2")
     public HttpResponseMessage run(
