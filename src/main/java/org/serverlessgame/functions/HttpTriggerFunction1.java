@@ -21,7 +21,7 @@ public class HttpTriggerFunction1 {
      * 2. curl "{your host}/api/HttpTriggerFunction1?name=HTTP%20Query"
      */
     @FunctionName("HttpTriggerFunction1")
-    public HttpResponseMessage run(
+    public String run(
             @HttpTrigger(
                 name = "req",
                 methods = {HttpMethod.GET, HttpMethod.POST},
@@ -35,9 +35,9 @@ public class HttpTriggerFunction1 {
         final String name = request.getBody().orElse(query);
 
         if (name == null) {
-            return request.createResponseBuilder(HttpStatus.BAD_REQUEST).body("Please pass a name on the query string or in the request body").build();
+            return "Please pass a name on the query string or in the request body";
         } else {
-            return request.createResponseBuilder(HttpStatus.OK).body("Hello dude just testing, " + name + " (from class1) ...").build();
+            return "Hello dude just testing, " + name + " (from class1) ...";
         }
     }
 }
