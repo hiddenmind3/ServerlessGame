@@ -13,4 +13,9 @@ public interface ApiProxy {
     @Path("/move")
     @Produces("text/plain")
     String getResponse(@QueryParam("dist") String dist);
+
+    @GET
+    @Path("/movewithstorage")
+    @Produces("text/plain")
+    String getResponseWithStorage(@QueryParam("dist") String dist);
 }
