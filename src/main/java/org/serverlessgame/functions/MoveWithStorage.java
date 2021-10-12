@@ -26,7 +26,7 @@ public class MoveWithStorage {
                     HttpRequestMessage<Optional<String>> request,
             @CosmosDBOutput(name = "serverlessgamecosmosstorage",
                     databaseName = "serverlessgamecosmosstorage",
-                    collectionName = "Game",
+                    collectionName = "Games",
                     connectionStringSetting = "Cosmos_DB_Connection_String")
                     OutputBinding<String> outputItem,
             @CosmosDBInput(name = "serverlessgamecosmosstorage",
