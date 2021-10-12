@@ -17,7 +17,7 @@ public class FunctionCaller {
 
         long start = System.currentTimeMillis();
 
-        int n = 100;
+        int n = 1000;
 
         ExecutorService es = Executors.newCachedThreadPool();
 
