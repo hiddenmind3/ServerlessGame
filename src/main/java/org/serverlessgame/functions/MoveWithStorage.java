@@ -64,7 +64,7 @@ public class MoveWithStorage {
 
         return request
                 .createResponseBuilder(HttpStatus.OK)
-                .body(StaticGame.getPosition())
+                .body(dist)
                 .build();
     }
 }
