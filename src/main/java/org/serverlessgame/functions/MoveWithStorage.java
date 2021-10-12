@@ -45,7 +45,7 @@ public class MoveWithStorage {
         context.getLogger().info("Parameters are: " + request.getQueryParameters());
 
         // Generate random ID
-        Game game = new Game(1);
+        Game game = new Game("main");
         game.move(Integer.valueOf(dist));
 
         // Generate document

@@ -1,10 +1,10 @@
 package org.serverlessgame.model;
 
 public class Game {
-    private int id;
+    private String id;
     private int position;
 
-    public Game(int id){
+    public Game(String id){
         this.id = id;
     }
 
