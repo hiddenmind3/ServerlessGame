@@ -29,26 +29,23 @@ public class MoveWithStorage {
                     collectionName = "Games",
                     connectionStringSetting = "Cosmos_DB_Connection_String")
                     OutputBinding<String> outputItem,
-            @CosmosDBInput(name = "serverlessgamecosmosstorage",
+            /*@CosmosDBInput(name = "serverlessgamecosmosstorage",
                     databaseName = "serverlessgamecosmosstorage",
                     collectionName = "Games",
                     id = "{Query.position}",
-                    partitionKey = "{Query.partitionKeyValue}",
+                    partitionKey = "1",
                     connectionStringSetting = "Cosmos_DB_Connection_String")
-                    Optional<String> optString,
+                    Optional<String> optString,*/
             final ExecutionContext context) {
 
         // Parse query parameter
         String dist = request.getQueryParameters().get("dist");
 
-        // Parse query parameter
-        String name = request.getBody().orElse(dist);
-
         // Item list
         context.getLogger().info("Parameters are: " + request.getQueryParameters());
 
         // Generate random ID
-        Game game = new Game();
+        Game game = new Game(1);
         game.move(Integer.valueOf(dist));
 
         // Generate document
