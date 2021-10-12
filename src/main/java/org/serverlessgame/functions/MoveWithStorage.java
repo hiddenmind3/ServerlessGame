@@ -1,9 +1,12 @@
 package org.serverlessgame.functions;
 
 import java.util.*;
+
+import com.fasterxml.jackson.databind.ObjectMapper;
 import com.microsoft.azure.functions.annotation.*;
 import com.microsoft.azure.functions.*;
 import org.serverlessgame.model.Game;
+import org.serverlessgame.model.StaticGame;
 
 /**
  * Azure Functions with HTTP Trigger.
@@ -23,20 +26,48 @@ public class MoveWithStorage {
                     HttpRequestMessage<Optional<String>> request,
             @CosmosDBOutput(name = "serverlessgamecosmosstorage",
                     databaseName = "serverlessgamecosmosstorage",
-                    collectionName = "Items",
-                    connectionStringSetting = "AzureCosmosDBConnection")
+                    collectionName = "Game",
+                    connectionStringSetting = "Cosmos_DB_Connection_String")
+                    OutputBinding<String> outputItem,
+            @CosmosDBInput(name = "serverlessgamecosmosstorage",
+                    databaseName = "serverlessgamecosmosstorage",
+                    collectionName = "Games",
+                    id = "{Query.position}",
+                    partitionKey = "{Query.partitionKeyValue}",
+                    connectionStringSetting = "Cosmos_DB_Connection_String")
+                    Optional<String> optString,
             final ExecutionContext context) {
 
         // Parse query parameter
-        String query = request.getQueryParameters().get("dist");
-        try{
-            int dist = Integer.valueOf(request.getBody().orElse(query));
-            Game.move(dist);
-        } catch (NumberFormatException e) {
-            return request.createResponseBuilder(HttpStatus.BAD_REQUEST).body("Query Parameter not a Number").build();
+        String dist = request.getQueryParameters().get("dist");
+
+        // Parse query parameter
+        String name = request.getBody().orElse(dist);
+
+        // Item list
+        context.getLogger().info("Parameters are: " + request.getQueryParameters());
+
+        // Generate random ID
+        Game game = new Game();
+        game.move(Integer.valueOf(dist));
+
+        // Generate document
+        ObjectMapper obj = new ObjectMapper();
+        String jsonDocument = null;
+        try {
+            jsonDocument = obj.writeValueAsString(game);
+        } catch (Exception e){
+            System.out.println("Exception when converting game to json string");
         }
 
+        context.getLogger().info("Document to be saved: " + jsonDocument);
 
-        return request.createResponseBuilder(HttpStatus.OK).body(Game.getPosition()).build();
+        // Set outputItem's value to the JSON document to be saved
+        outputItem.setValue(jsonDocument);
+
+        return request
+                .createResponseBuilder(HttpStatus.OK)
+                .body(StaticGame.getPosition())
+                .build();
     }
 }

@@ -3,7 +3,7 @@ package org.serverlessgame.functions;
 import java.util.*;
 import com.microsoft.azure.functions.annotation.*;
 import com.microsoft.azure.functions.*;
-import org.serverlessgame.model.Game;
+import org.serverlessgame.model.StaticGame;
 
 /**
  * Azure Functions with HTTP Trigger.
@@ -23,11 +23,11 @@ public class Move {
         String query = request.getQueryParameters().get("dist");
         try{
             int dist = Integer.valueOf(request.getBody().orElse(query));
-            Game.move(dist);
+            StaticGame.move(dist);
         } catch (NumberFormatException e) {
             return request.createResponseBuilder(HttpStatus.BAD_REQUEST).body("Query Parameter not a Number").build();
         }
 
-        return request.createResponseBuilder(HttpStatus.OK).body(Game.getPosition()).build();
+        return request.createResponseBuilder(HttpStatus.OK).body(StaticGame.getPosition()).build();
     }
 }
